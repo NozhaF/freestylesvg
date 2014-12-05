@@ -48,11 +48,8 @@ except IOError:
 	f.close()
 
 # select
-preds = [
-    ContourUP1D(),
-    NotUP1D(pyIsOccludedByItselfUP1D())
-]
-upred = join_unary_predicates(preds, AndUP1D)
+upred = AndUP1D(ContourUP1D(), NotUP1D(pyIsOccludedByItselfUP1D()))
+
 Operators.select(upred)
 
 # chain

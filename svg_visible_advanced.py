@@ -4,6 +4,7 @@
 
 import os
 import re
+import bpy
 from freestyle import *
 from freestyle.functions import *
 from freestyle.predicates import *
@@ -46,13 +47,11 @@ except IOError:
 
 
 # select
-preds = [
-    pyNatureUP1D(Nature.SILHOUETTE),
-    pyNatureUP1D(Nature.CREASE),
-    ContourUP1D()
-]
-upred = join_unary_predicates(preds, OrUP1D)
-upred = AndUP1D(QuantitativeInvisibilityUP1D(0), upred)
+upred = AndUP1D(QuantitativeInvisibilityUP1D(0),
+        OrUP1D(pyNatureUP1D(Nature.SILHOUETTE),
+        pyNatureUP1D(Nature.CREASE),
+        ContourUP1D()))
+
 Operators.select(upred)
 
 # chain
